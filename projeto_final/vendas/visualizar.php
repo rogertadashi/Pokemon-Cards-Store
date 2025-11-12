@@ -7,10 +7,9 @@ if($id<=0){ http_response_code(400); exit('ID inválido.'); }
 
 $vh=$connect->prepare("
   SELECT v.id, v.data_venda, v.valor_total, v.condicao_pagamento,
-         c.nome AS cliente, u.nome AS vendedor
+         c.nome AS cliente
   FROM vendas v
   JOIN clientes c ON c.id=v.cliente_id
-  JOIN usuarios u ON u.id=v.usuario_id
   WHERE v.id=?
 ");
 $vh->bind_param('i',$id);
@@ -44,7 +43,6 @@ $items=$vi->get_result()->fetch_all(MYSQLI_ASSOC);
 
 <div class="box">
   <p><b>Cliente:</b> <?= htmlspecialchars($head['cliente']) ?></p>
-  <p><b>Vendedor:</b> <?= htmlspecialchars($head['vendedor']) ?></p>
   <p><b>Data:</b> <?= htmlspecialchars($head['data_venda']) ?></p>
   <p><b>Condição:</b> <?= htmlspecialchars($head['condicao_pagamento']) ?></p>
 </div>

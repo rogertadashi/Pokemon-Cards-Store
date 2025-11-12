@@ -1,19 +1,31 @@
 <?php
+// Inicia a sessão apenas se ainda não estiver iniciada
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// ==============================
+// ⚙️ Configurações do banco
+// ==============================
 $servername = "localhost";
-$username = "root";
-$password = "";
-$db_name = "pokestore";
+$username   = "root";
+$password   = "";
+$database   = "pokestore";
 
-$connect = mysqli_connect($servername, $username, $password, $db_name);
+// ==============================
+// 🔗 Cria conexão MySQLi
+// ==============================
+$conn = mysqli_connect($servername, $username, $password, $database);
 
-// Alias para compatibilidade com arquivos que usam $conn
-$conn = $connect;
-
-if (!$connect) {
-    die("Falha na conexão: " . mysqli_connect_error());
+// Verifica a conexão
+if (!$conn) {
+    die("❌ Falha na conexão com o banco de dados: " . mysqli_connect_error());
 }
-?>
+
+// Define charset UTF-8 (para acentuação correta)
+mysqli_set_charset($conn, "utf8mb4");
+
+// ==============================
+// 🔁 Compatibilidade com scripts antigos
+// ==============================
+$connect = $conn;
